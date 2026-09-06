@@ -1,18 +1,22 @@
 import postgres from 'postgres';
 
-const connectionString = process.env.DATABASE_URL;
+let sql = null;
 
-if (!connectionString) {
-  throw new Error('DATABASE_URL environment variable is not set');
+export function getSQL() {
+  if (!sql) {
+    const connectionString = process.env.DATABASE_URL;
+    
+    if (!connectionString) {
+      throw new Error('DATABASE_URL environment variable is not set');
+    }
+    
+    sql = postgres(connectionString, {
+      ssl: 'require',
+      max: 1,
+      idle_timeout: 20,
+      connect_timeout: 10,
+    });
+  }
+  
+  return sql;
 }
-
-// Create SQL client with connection pooling for Vercel
-const sql = postgres(connectionString, {
-  ssl: 'require',
-  max: 3, // Vercel serverless functions need limited connections
-  idle_timeout: 20,
-  connect_timeout: 10,
-});
-
-// Export for use in API routes
-export default sql;
