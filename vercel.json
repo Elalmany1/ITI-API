@@ -1,16 +1,10 @@
 {
   "functions": {
-    "api/**/*.js": {
-      "runtime": "nodejs22.x"
+    "[...route].js": {
+      "runtime": "nodejs20.x"
     }
   },
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/[...route].js"
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  "buildCommand": "npm install",
+  "outputDirectory": ".",
+  "regions": ["iad1"]
 }
