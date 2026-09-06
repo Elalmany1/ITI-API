@@ -1,10 +1,18 @@
 {
   "functions": {
-    "[...route].js": {
-      "runtime": "nodejs20.x"
+    "api/[...route].js": {
+      "runtime": "nodejs20.x",
+      "memory": 1024,
+      "maxDuration": 30
     }
   },
   "buildCommand": "npm install",
   "outputDirectory": ".",
-  "regions": ["iad1"]
+  "regions": ["iad1"],
+  "env": {
+    "DATABASE_URL": "@database_url",
+    "NODE_ENV": "production",
+    "VITE_API_BASE_URL": "@api_base_url",
+    "ALLOWED_ORIGINS": "@allowed_origins"
+  }
 }
