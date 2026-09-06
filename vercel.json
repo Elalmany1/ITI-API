@@ -1,5 +1,8 @@
 {
   "buildCommand": "npm install",
   "outputDirectory": ".",
-  "regions": ["iad1"]
+  "regions": ["iad1"],
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" }
+  ]
 }
