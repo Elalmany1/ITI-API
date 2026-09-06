@@ -1,33 +1,33 @@
 import sql from './db.js';
 
-export default async function handler(req, res) {
+export default async function handler(request, response) {
   // Handle CORS preflight
-  if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGINS || '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
-    return res.status(200).send('');
+  if (request.method === 'OPTIONS') {
+    response.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGINS || '*');
+    response.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS, POST, PUT, DELETE');
+    response.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    response.status(200).end();
+    return;
   }
 
-  // Set CORS headers for all requests
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGINS || '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+  // Set CORS headers
+  response.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGINS || '*');
+  response.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS, POST, PUT, DELETE');
+  response.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  response.setHeader('Content-Type', 'application/json');
 
   try {
     // Test database connection
     await sql`SELECT 1 as health`;
     
-    return res.status(200).json({
+    response.status(200).json({
       status: 'healthy',
       database: 'connected',
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
     console.error('Health check failed:', error);
-    return res.status(503).json({
+    response.status(503).json({
       status: 'unhealthy',
       database: 'disconnected',
       error: error.message,
