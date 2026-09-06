@@ -3,6 +3,6 @@
   "private":true,
   "type":"module",
   "scripts":{"dev":"vercel dev","start":"vercel dev"},
-  "dependencies":{"@vercel/blob":"latest"},
+  "dependencies":{"@vercel/blob":"latest","postgres":"latest"},
   "devDependencies":{"vercel":"latest"}
 }

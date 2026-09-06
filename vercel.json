@@ -1,1 +1,16 @@
-{"functions":{"api/**/*.js":{"runtime":"nodejs22.x"}}}
+{
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs22.x"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/[...route].js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
