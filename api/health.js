@@ -1,4 +1,4 @@
-import sql from '../api/db.js';
+import sql from './db.js';
 
 export default async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
